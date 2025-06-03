@@ -2,10 +2,10 @@
 
 ## MVE Trainer Documentation
 
+- [Start Arguments](trainer/Start-arguments.md)
 - [Config Parameters](trainer/Config-params.md)
 - [GUI Manual](trainer/GUI-manual.md)
 - [Progressive Training Guide](trainer/Progress-training.md)
-- [Start Arguments](trainer/Start-arguments.md)
 
 ## DFL MVE Documentation
 
