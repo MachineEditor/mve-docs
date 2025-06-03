@@ -14,10 +14,17 @@ The process and models are designed to be compatible with the DeepFaceLab (DFL) 
 
 To use progressive training you need to set the `growing_stage` parameter in the configuration file. The growing stage can be set to a value between -1 and 1 in public version -2 and 2 in paid version, where -2 is the lowest resolution and 2 is the highest resolution. The default value is 0, which is compatible with DFL models.
 
-Each stage will double the resolution of the model
+Each stage will double the resolution of the model, but will reduce the overall capacity of the model, so you will need to adjust the dimensions accordingly. The growing stage will also append new blocks to the input of the encoder and output of the decoder.
 
+**Config resolution should be resolution as stage 0, this was done to keep the compatibility with DFL models**
 
 ### Pretrain
+
+Pretraining models should be put in the `pretrain` folder of the model directory. Trainer will automatically detect the pretrain model and use it for training, it will look for the best pretrain model that matches the growing stage of the current model.
+
+Do not use intermediate models in the pretrain folder, only encoder and decoder.
+
+AMP encoder and decoder are interchangeable with SAEHD -ut or -udt for the encoder and -dt or -udt for the decoder with same dims.
 
 ### Merging
 
