@@ -20,7 +20,7 @@ This document describes the configuration parameters for the MVE PyTorch trainer
 
 Model parameters are the same as DeepFaceLab parameters
 
-Model growing is a process of training the model with a low resolution and then increasing the resolution and training it further. Each stage appends new block to the input of the encoder and output of the decoder and each stage double the resolution of the model but reduces the overall capacity so the dimensions need to be adjusted accordingly. Growing can increase the training speed and add stability to the training process, but it is not required for training.
+Model growing is a process of training the model with a low resolution and then increasing the resolution and training it further. Each stage appends new block to the input of the encoder and output of the decoder and each stage double the resolution of the model but reduces the overall capacity so the dimensions need to be adjusted accordingly. Growing can increase the training speed and add stability to the training process, but it is not required for training. More information about growing can be found in the [Progressive Training Guide](Progressive-training.md).
 
 - archi - saehd model architecture (only SAEHD - valid values are -u, -t, -d)
 - resolution - model resolution, should be dividable by 32 (448 is max for free version)
@@ -34,9 +34,10 @@ Model growing is a process of training the model with a low resolution and then 
 ### Training Parameters
 
 Training parameters are used to control the training process, they are similar to DFL parameters, but with some differences.
+Currently, float16 can be unstable especially at RW off stage.
 
 - mp_mode:
-	- full - full precision operations
+	- full - full precision operations (default)
 	- full_t - full precision mode with the use of Tensor cores, reduction in precision with an increase of speed
 	- float16 - same precision as full_t with smaller min and max values,  memory and speed benefits, not compatible with if the model values are less then minimum value of float16 (needs clipgrad it can randomly collapse on a high loss)
 	- bfloat - precision loss memory and speed benefits, has the same min and max values a float but has a lot lesser value density (compatible with full precision)
@@ -97,10 +98,13 @@ Usually we don't change those values
 
 Options related to GAN training mode
 
+Discriminator loss can be monitored in tensorboard. We want the discriminator loss to be mostly constant, if it goes up or down too much, it means that the generator is not learning as fast as the discriminator and could lead to a collapse. We can slow down the discriminator by increasing `gan_smoothing` or `gan_noise`
+
 - gan_training - enables or disables the discriminator model used in GAN training
-- gan_power - multiplier for GAN loss to the src model loss, GAN generator loss values can be monitored in tesnorboard
+- gan_fix - more DFL like GAN training, use more VRAM and iteration time
+- gan_power - multiplier for GAN loss to the src model loss, generator in tensorboard. Higher gan_power means GAN loss will be more dominant in the training process compared to regular SSIM loss
 - gan_dims - the dimensions of the GAN network. The higher dimensions, the more VRAM is required. You can get sharper edges even at the lowest setting. Typical fine value is 16.
-- gan_patch_size - The dimensions of the GAN network. The higher dimensions, the more VRAM is required. You can get sharper edges even at the lowest setting. Typical fine value is 16.
+- gan_patch_size - The dimensions of the GAN network. The higher dimensions, the more VRAM is required. You can get sharper edges even at the lowest setting. Patch size needs to be dividable by 32, DFL will set it around resolution / 8
 - gan_weight_decay - modifier to reduce large internal weight updates
 - gan_smoothing - uses soft labels with values slightly off from 0/1 for GAN, has a regularizing effect
 - gan_noise - marks some images with the wrong label, helps prevent collapse
