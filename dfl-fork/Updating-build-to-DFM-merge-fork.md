@@ -14,4 +14,4 @@
     ```
 
 5. Download Merge DFM bat file and put it in the directory with other bat files
-    - [merge-dfm.bat](/assets/dfl/merge-dfm.bat)
+    - [7) merge DFM.bat](/assets/dfl/7%29%20merge%20DFM.bat)
