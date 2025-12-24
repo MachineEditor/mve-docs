@@ -6,6 +6,7 @@
 - [Config Parameters](trainer/Config-params.md)
 - [GUI Manual](trainer/GUI-manual.md)
 - [Progressive Training Guide](trainer/Progress-training.md)
+- [License Activation (paid version only)](trainer/License-activation.md)
 
 ## DFL MVE Documentation
 
