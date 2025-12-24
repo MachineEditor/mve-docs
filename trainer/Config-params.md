@@ -10,6 +10,7 @@ This document describes the configuration parameters for the MVE PyTorch trainer
 - [Training Parameters](#training-parameters)
 - [Data Loading (Image and mask caching)](#data-loading-image-and-mask-caching)
 - [Data Augmentation](#data-augmentation)
+- [Gradient_checkpointing](#gradient_checkpointing)
 - [GAN options](#gan-options)
 
 ### General Parameters
@@ -38,7 +39,6 @@ Currently, float16 can be unstable especially at RW off stage.
 
 - mp_mode:
 	- full - full precision operations (default)
-	- full_t - full precision mode with the use of Tensor cores, reduction in precision with an increase of speed
 	- float16 - same precision as full_t with smaller min and max values,  memory and speed benefits, not compatible with if the model values are less then minimum value of float16 (needs clipgrad it can randomly collapse on a high loss)
 	- bfloat - precision loss memory and speed benefits, has the same min and max values a float but has a lot lesser value density (compatible with full precision)
  ![Number types for training](/assets/images/trainer-taining-number-type.jpg)
@@ -93,6 +93,17 @@ Usually we don't change those values
 - rotation_range - randomly rotates samples (advanced)
 - tx_range - randomly translates samples in x direction (advanced)
 - ty_range - randomly translates samples in y direction (advanced)
+
+### Gradient_checkpointing
+
+Gradient checkpointing saves memory during training by not storing some of the intermediate values during the forward pass and recomputing them during the backward pass. It will increase the iteration time, but it will allow training larger models on the same GPU.
+
+Advanced description can be found here: [Gradient Checkpointing](https://github.com/cybertronai/gradient-checkpointing/)
+
+  - checkpoint_encoder - checkpoints the encoder model
+  - checkpoint_intermediate - checkpoints the intermediate blocks
+  - checkpoint_decoder - checkpoints the decoder model
+  - checkpoint_discriminator - checkpoints the discriminator model (if GAN training is enabled)
 
 ### GAN options
 
