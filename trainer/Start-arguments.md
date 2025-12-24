@@ -1,6 +1,8 @@
-version 1.4
+version 1.5
 
 ### main.py input parameters
+
+Script to start the training process
 
 Input parameters are appended with --prefix
 - src - source face dataset directory
@@ -15,6 +17,7 @@ Input parameters are appended with --prefix
 - tensorboard-port - tensorboard port (default: 6006)
 - tensorboard-host - tensorboard network address binding (default: 127.0.0.1)
 - multi-gpu - models will be allocated to all available GPUs with each GPU having it's own copy of the model (paid version only)
+- multi-gpu-port - multi gpu communication port (default: 12365, paid version only)
 - web-ui-port - custom web GUI port (default: 80)
 - webui-address -  webui network address binding (default: 127.0.0.1)
 - api-port - custom API port (default: 8000)
@@ -22,6 +25,33 @@ Input parameters are appended with --prefix
 - loss-port - internal communication port (default: 8001)
 - api-auth - enable api auth - generates and post the authentication token on the startup (paid version only)
 - api-auth-token - specify an authentication token (paid version only)
+
+### main_app.py input parameters
+
+Script to start the GUI in which you can start/stop training via GUI. Experimental feature, in the future it should replace directly starting the training process via main.py. Input parameters are the same as main.py
+
+Input parameters are appended with --prefix
+- src - source face dataset directory
+- dst - dst face dataset directory
+- model - model output directory
+- type - model type SAEHD or AMP
+- verbose - detailed weight loading output use for debugging
+- config - path to the config YAML file of the model, if not specified trainer will attempt to find a config or data.dat file inside the model directory
+- pretrain - path to pretrain model directory
+- freeze-old-layers - if set to true, model will freeze all layers that are loaded from the training model, new layers and layers loaded from the pretrain model will be trained
+- skip-tensorboard - disable tensorboard
+- tensorboard-port - tensorboard port (default: 6006)
+- tensorboard-host - tensorboard network address binding (default: 127.0.0.1)
+- multi-gpu - models will be allocated to all available GPUs with each GPU having it's own copy of the model (paid version only)
+- multi-gpu-port - multi gpu communication port (default: 12365, paid version only)
+- web-ui-port - custom web GUI port (default: 80)
+- webui-address -  webui network address binding (default: 127.0.0.1)
+- api-port - custom API port (default: 8000)
+- api-address - api network address binding (default: 127.0.0.1)
+- loss-port - internal communication port (default: 8001)
+- api-auth - enable api auth - generates and post the authentication token on the startup (paid version only)
+- api-auth-token - specify an authentication token (paid version only)
+
 
 ### config_exporter.py
 
