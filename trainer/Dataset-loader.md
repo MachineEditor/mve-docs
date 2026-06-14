@@ -5,6 +5,8 @@
 MVE trainer support the legacy dataset structure of DeepFaceLab (DFL) .pak and the new dataset structure .pak2 that is used for both dataset and internal cache.
 New .pak2 format is based on the LMDB database. It has better performance and stability compared to the old .pak format, but it is not compatible with DFL. The trainer can load both .pak and .pak2 formats.
 
+Biggest advantage in using a dataset file compared to an image folder is checking for changes when data loading. Instead of checking each image file for changes, it checks the dataset file for changes, which is much faster.
+
 It is recommended to convert to your dataset to .pak2 format as it more secure. It doesn't save any python objects, everything is serialized to static data.
 
 Old cache will get auto converted to the new dataset format and removed after the conversion, so you can switch to the new format without worrying about the old cache.
